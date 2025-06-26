@@ -1,6 +1,6 @@
 # Does My Girlfriend Love Me? 💕
 
-A comprehensive relationship tracking application that helps you monitor relationship events and cycle data to understand patterns and trends in your relationship.
+A comprehensive relationship tracking application that helps you monitor relationship events and cycle data to understand patterns and trends in your relationship. P.S this Application is build solely for fun, to explore technologies, play with code, and make my girlfriend laugh.
 
 ![React](https://img.shields.io/badge/React-18.2.0-blue)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)
