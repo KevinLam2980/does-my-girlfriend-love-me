@@ -6,7 +6,7 @@ interface CycleHistoryProps {
   sortedCycles: Cycle[];
   getCycleWithLength: (cycle: Cycle, index: number) => Cycle;
   editCycle: (cycle: Cycle) => void;
-  deleteCycle: (id: number) => void;
+  deleteCycle: (id: string) => void;
 }
 
 const CycleHistory: React.FC<CycleHistoryProps> = ({
@@ -41,10 +41,10 @@ const CycleHistory: React.FC<CycleHistoryProps> = ({
                     onClick={(e) => {
                       e.stopPropagation();
                       e.preventDefault();
-                      console.log('Edit cycle clicked');
+                      console.log('Edit cycle clicked:', cycle);
                       editCycle(cycle);
                     }}
-                    className="p-1 text-gray-400 hover:text-purple-500 rounded cursor-pointer"
+                    className="p-1 text-gray-400 hover:text-purple-500 rounded cursor-pointer transition-colors"
                     title="Edit cycle"
                   >
                     <Edit size={16} />
@@ -53,10 +53,12 @@ const CycleHistory: React.FC<CycleHistoryProps> = ({
                     onClick={(e) => {
                       e.stopPropagation();
                       e.preventDefault();
-                      console.log('Delete cycle clicked');
-                      deleteCycle(cycle.id!);
+                      console.log('Delete cycle clicked:', cycle.id);
+                      if (cycle.id) {
+                        deleteCycle(cycle.id);
+                      }
                     }}
-                    className="p-1 text-gray-400 hover:text-red-500 rounded cursor-pointer"
+                    className="p-1 text-gray-400 hover:text-red-500 rounded cursor-pointer transition-colors"
                     title="Delete cycle"
                   >
                     <Trash2 size={16} />

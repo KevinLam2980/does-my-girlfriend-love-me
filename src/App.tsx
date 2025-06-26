@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Heart, AlertCircle, Coffee, Check, X } from 'lucide-react';
 import { Toaster } from 'react-hot-toast';
-import { TooltipProps } from './types';
+import { TooltipProps, Cycle, DefaultCycleData } from './types';
 import { showToast } from './utils/toast';
 import { useAppSelector, useAppDispatch } from './store/hooks';
 import { useAppLogic } from './hooks/useAppLogic';
@@ -34,7 +34,9 @@ import {
   fetchSettings,
   updateSettings,
   getCurrentUser,
-  logoutUser
+  logoutUser,
+  updateUserProfile,
+  changePassword
 } from './store/thunks';
 import Header from './components/common/Header';
 import Footer from './components/common/Footer';
@@ -80,6 +82,13 @@ export default function App() {
     }
   }, [isAuthenticated, dispatch]);
 
+  // Update newCycle default period length when settings are loaded
+  useEffect(() => {
+    if (defaultCycleData && !editingCycle && newCycle.periodLength === 28) {
+      dispatch(setNewCycle({ periodLength: defaultCycleData.averagePeriodLength }));
+    }
+  }, [defaultCycleData, editingCycle, newCycle.periodLength, dispatch]);
+
   // Check authentication on mount
   useEffect(() => {
     const token = localStorage.getItem('authToken');
@@ -89,17 +98,29 @@ export default function App() {
   }, [dispatch, isAuthenticated]);
 
   // Event handlers
-  const handleDefaultCycleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+  const handleSaveSettings = async (settings: DefaultCycleData) => {
     const updatedSettings = {
-      defaultCycleData: {
-        ...defaultCycleData,
-        [name]: parseInt(value)
-      }
+      defaultCycleData: settings
     };
     
     try {
       await dispatch(updateSettings(updatedSettings)).unwrap();
+    } catch (error) {
+      // Error is handled by the thunk
+    }
+  };
+
+  const handleUpdateProfile = async (profileData: { username?: string; email?: string }) => {
+    try {
+      await dispatch(updateUserProfile(profileData)).unwrap();
+    } catch (error) {
+      // Error is handled by the thunk
+    }
+  };
+
+  const handleChangePassword = async (passwordData: { currentPassword: string; newPassword: string }) => {
+    try {
+      await dispatch(changePassword(passwordData)).unwrap();
     } catch (error) {
       // Error is handled by the thunk
     }
@@ -194,7 +215,7 @@ export default function App() {
     }
   };
 
-  const handleEditCycle = (cycle: any) => {
+  const handleEditCycle = (cycle: Cycle) => {
     dispatch(setEditingCycle(cycle));
   };
 
@@ -203,7 +224,7 @@ export default function App() {
     showToast.info('Edit cancelled');
   };
 
-  const handleDeleteEvent = (id: number) => {
+  const handleDeleteEvent = (id: string) => {
     const event = events.find((e: any) => e.id === id);
     if (!event) {
       showToast.error('Event not found');
@@ -228,7 +249,7 @@ export default function App() {
     }));
   };
 
-  const handleDeleteCycle = (id: number) => {
+  const handleDeleteCycle = (id: string) => {
     const cycle = cycles.find((c: any) => c.id === id);
     if (!cycle) {
       showToast.error('Cycle not found');
@@ -434,7 +455,12 @@ export default function App() {
         {currentTab === 'profile' && (
           <ProfilePage
             defaultCycleData={defaultCycleData}
-            handleDefaultCycleChange={handleDefaultCycleChange}
+            onSaveSettings={handleSaveSettings}
+            onUpdateProfile={handleUpdateProfile}
+            onChangePassword={handleChangePassword}
+            onLogout={handleLogout}
+            user={user}
+            loading={settingsLoading}
           />
         )}
       </main>

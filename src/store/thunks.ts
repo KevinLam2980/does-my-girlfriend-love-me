@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { authAPI, cyclesAPI, eventsAPI, settingsAPI } from '../services/api';
+import { authAPI, cyclesAPI, eventsAPI, settingsAPI, userAPI } from '../services/api';
 import { showToast } from '../utils/toast';
 
 // Authentication thunks
@@ -82,7 +82,7 @@ export const createCycle = createAsyncThunk(
 
 export const updateCycle = createAsyncThunk(
   'cycles/update',
-  async ({ id, cycleData }: { id: number; cycleData: any }) => {
+  async ({ id, cycleData }: { id: string; cycleData: any }) => {
     try {
       const cycle = await cyclesAPI.update(id, cycleData);
       showToast.success('Cycle updated successfully');
@@ -96,7 +96,7 @@ export const updateCycle = createAsyncThunk(
 
 export const deleteCycle = createAsyncThunk(
   'cycles/delete',
-  async (id: number) => {
+  async (id: string) => {
     try {
       await cyclesAPI.delete(id);
       showToast.success('Cycle deleted successfully');
@@ -138,7 +138,7 @@ export const createEvent = createAsyncThunk(
 
 export const updateEvent = createAsyncThunk(
   'events/update',
-  async ({ id, eventData }: { id: number; eventData: any }) => {
+  async ({ id, eventData }: { id: string; eventData: any }) => {
     try {
       const event = await eventsAPI.update(id, eventData);
       showToast.success('Event updated successfully');
@@ -152,7 +152,7 @@ export const updateEvent = createAsyncThunk(
 
 export const deleteEvent = createAsyncThunk(
   'events/delete',
-  async (id: number) => {
+  async (id: string) => {
     try {
       await eventsAPI.delete(id);
       showToast.success('Event deleted successfully');
@@ -187,6 +187,34 @@ export const updateSettings = createAsyncThunk(
       return settings;
     } catch (error: any) {
       showToast.error('Failed to update settings');
+      throw error;
+    }
+  }
+);
+
+// User profile thunks
+export const updateUserProfile = createAsyncThunk(
+  'auth/updateProfile',
+  async (profileData: { username?: string; email?: string }) => {
+    try {
+      const user = await userAPI.updateProfile(profileData);
+      showToast.success('Profile updated successfully');
+      return user;
+    } catch (error: any) {
+      showToast.error('Failed to update profile');
+      throw error;
+    }
+  }
+);
+
+export const changePassword = createAsyncThunk(
+  'auth/changePassword',
+  async (passwordData: { currentPassword: string; newPassword: string }) => {
+    try {
+      await userAPI.changePassword(passwordData);
+      showToast.success('Password changed successfully');
+    } catch (error: any) {
+      showToast.error('Failed to change password');
       throw error;
     }
   }

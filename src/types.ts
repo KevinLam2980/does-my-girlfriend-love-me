@@ -1,7 +1,22 @@
+// Core types for the application
 export interface Cycle {
-  id: number;
+  id: string;
+  userId: string;
   startDate: string;
   periodLength: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Event {
+  id: string;
+  userId: string;
+  date: string;
+  type: 'nice' | 'mean' | 'argument' | 'gift' | 'food';
+  notes?: string;
+  cycleId?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface NewCycle {
@@ -9,51 +24,36 @@ export interface NewCycle {
   periodLength: number;
 }
 
-export interface Event {
-  id: number;
-  date: string;
-  type: 'nice' | 'mean' | 'argument' | 'gift' | 'food';
-  notes?: string;
-}
-
 export interface NewEvent {
   date: string;
   type: 'nice' | 'mean' | 'argument' | 'gift' | 'food';
   notes?: string;
-}
-
-export interface CycleInfo {
-  cycle: Cycle | null;
-  cycleDay: number | null;
-  periodLength: number;
-}
-
-export interface ChartDataPoint {
-  day: number;
-  nice: number;
-  mean: number;
-  argument: number;
-  gift: number;
-  food: number;
-}
-
-export interface Stats {
-  totalEvents: number;
-  niceEvents: number;
-  meanEvents: number;
-  argumentEvents: number;
-  giftEvents: number;
-  foodEvents: number;
-  nicePercentage: number;
-  meanPercentage: number;
-  argumentPercentage: number;
-  giftPercentage: number;
-  foodPercentage: number;
+  cycleId?: string;
 }
 
 export interface DefaultCycleData {
   averagePeriodLength: number;
   averageCycleLength: number;
+}
+
+export interface CycleInfo {
+  cycle: Cycle | null;
+  cycleDay: number | null;
+  phase: string | null;
+}
+
+export interface ChartDataPoint {
+  day: number;
+  events: number;
+  phase: string;
+}
+
+export interface Stats {
+  totalCycles: number;
+  averagePeriodLength: number;
+  averageCycleLength: number;
+  totalEvents: number;
+  eventBreakdown: Record<string, number>;
 }
 
 export interface ConfirmDialog {
@@ -65,10 +65,19 @@ export interface ConfirmDialog {
 
 export interface TooltipProps {
   active?: boolean;
-  payload?: Array<{
-    value: number;
-    name: string;
-    color: string;
-  }>;
+  payload?: any[];
   label?: string | number;
+}
+
+export interface User {
+  id: string;
+  username: string;
+  email: string;
+}
+
+export interface AuthState {
+  isAuthenticated: boolean;
+  user: User | null;
+  loading: boolean;
+  error: string | null;
 } 

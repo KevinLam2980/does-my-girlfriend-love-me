@@ -16,7 +16,7 @@ interface CyclePageProps {
   addCycle: (e: React.FormEvent) => void;
   cancelEditCycle: () => void;
   editCycle: (cycle: Cycle) => void;
-  deleteCycle: (id: number) => void;
+  deleteCycle: (id: string) => void;
   setShowAddCycle: (b: boolean) => void;
   defaultCycleData: any;
   getCycleWithLength: (cycle: Cycle, index: number) => Cycle;

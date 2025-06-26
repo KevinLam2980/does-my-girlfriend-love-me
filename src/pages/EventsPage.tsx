@@ -12,7 +12,7 @@ interface EventsPageProps {
   editingEvent: Event | null;
   cancelEditEvent: () => void;
   editEvent: (event: Event) => void;
-  deleteEvent: (id: number) => void;
+  deleteEvent: (id: string) => void;
   getCycleInfo: (date: string) => any;
   getPhaseColor: (phase: string) => string;
   getCyclePhase: (day: number, periodLength: number) => string;

@@ -9,6 +9,7 @@ import protectedRoutes from './routes/protected';
 import cyclesRoutes from './routes/cycles';
 import eventsRoutes from './routes/events';
 import settingsRoutes from './routes/settings';
+import userRoutes from './routes/user';
 
 // Load environment variables
 dotenv.config();
@@ -28,7 +29,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/api/auth', authRoutes);
-app.use('/api/user', protectedRoutes);
+app.use('/api/user', userRoutes);
 app.use('/api/cycles', cyclesRoutes);
 app.use('/api/events', eventsRoutes);
 app.use('/api/settings', settingsRoutes);

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { registerUser, loginUser, logoutUser, getCurrentUser } from '../thunks';
+import { registerUser, loginUser, logoutUser, getCurrentUser, updateUserProfile } from '../thunks';
 import { getAuthToken } from '../../services/api';
 
 interface User {
@@ -91,6 +91,21 @@ const authSlice = createSlice({
         state.user = null;
         state.token = null;
         state.isAuthenticated = false;
+      });
+
+    // Update user profile
+    builder
+      .addCase(updateUserProfile.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateUserProfile.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(updateUserProfile.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || 'Profile update failed';
       });
   },
 });

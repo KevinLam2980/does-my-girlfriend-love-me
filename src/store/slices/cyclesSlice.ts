@@ -45,7 +45,7 @@ const cyclesSlice = createSlice({
       } else {
         state.newCycle = {
           startDate: '',
-          periodLength: 28
+          periodLength: 28 // This will be updated by the useEffect in App.tsx
         };
       }
     },
@@ -56,7 +56,7 @@ const cyclesSlice = createSlice({
       state.editingCycle = null;
       state.newCycle = {
         startDate: '',
-        periodLength: 28
+        periodLength: 28 // This will be updated by the useEffect in App.tsx
       };
     },
     clearError: (state) => {
@@ -95,7 +95,7 @@ const cyclesSlice = createSlice({
         state.showAddCycle = false;
         state.newCycle = {
           startDate: '',
-          periodLength: 28
+          periodLength: 28 // This will be updated by the useEffect in App.tsx
         };
       })
       .addCase(createCycle.rejected, (state, action) => {
@@ -118,7 +118,7 @@ const cyclesSlice = createSlice({
         state.editingCycle = null;
         state.newCycle = {
           startDate: '',
-          periodLength: 28
+          periodLength: 28 // This will be updated by the useEffect in App.tsx
         };
       })
       .addCase(updateCycle.rejected, (state, action) => {

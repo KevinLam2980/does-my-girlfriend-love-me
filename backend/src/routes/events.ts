@@ -4,12 +4,30 @@ import Event from '../models/Event';
 
 const router = express.Router();
 
+// Helper function to transform MongoDB document to frontend format
+const transformEvent = (event: any) => ({
+  id: event._id.toString(),
+  date: event.date,
+  type: event.type,
+  notes: event.notes,
+  createdAt: event.createdAt,
+  updatedAt: event.updatedAt
+});
+
+// Helper function to handle date without timezone issues
+const parseDateWithoutTimezone = (dateString: string): Date => {
+  // Create date in local timezone by setting time to noon
+  const [year, month, day] = dateString.split('-').map(Number);
+  return new Date(year, month - 1, day, 12, 0, 0, 0);
+};
+
 // Get all events for the authenticated user
 router.get('/', auth, async (req: Request, res: Response) => {
   try {
     const user = (req as any).user;
     const events = await Event.find({ userId: user.id }).sort({ date: -1 });
-    res.json(events);
+    const transformedEvents = events.map(transformEvent);
+    res.json(transformedEvents);
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
   }
@@ -29,15 +47,18 @@ router.post('/', auth, async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'Invalid event type' });
     }
 
+    // Parse date without timezone issues
+    const parsedDate = parseDateWithoutTimezone(date);
+
     const event = new Event({
       userId: user.id,
-      date,
+      date: parsedDate,
       type,
       notes
     });
 
     const savedEvent = await event.save();
-    res.status(201).json(savedEvent);
+    res.status(201).json(transformEvent(savedEvent));
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
   }
@@ -55,7 +76,10 @@ router.put('/:id', auth, async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'Event not found' });
     }
 
-    if (date) event.date = date;
+    if (date) {
+      // Parse date without timezone issues
+      event.date = parseDateWithoutTimezone(date);
+    }
     if (type) {
       if (!['nice', 'mean', 'argument', 'gift', 'food'].includes(type)) {
         return res.status(400).json({ message: 'Invalid event type' });
@@ -65,7 +89,7 @@ router.put('/:id', auth, async (req: Request, res: Response) => {
     if (notes !== undefined) event.notes = notes;
 
     const updatedEvent = await event.save();
-    res.json(updatedEvent);
+    res.json(transformEvent(updatedEvent));
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
   }

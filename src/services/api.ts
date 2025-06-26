@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
 interface AuthResponse {
   token: string;
@@ -125,14 +125,14 @@ export const cyclesAPI = {
     });
   },
 
-  update: async (id: number, cycleData: any): Promise<any> => {
+  update: async (id: string, cycleData: any): Promise<any> => {
     return makeAuthenticatedRequest(`/cycles/${id}`, {
       method: 'PUT',
       body: JSON.stringify(cycleData),
     });
   },
 
-  delete: async (id: number): Promise<void> => {
+  delete: async (id: string): Promise<void> => {
     return makeAuthenticatedRequest(`/cycles/${id}`, {
       method: 'DELETE',
     });
@@ -152,14 +152,14 @@ export const eventsAPI = {
     });
   },
 
-  update: async (id: number, eventData: any): Promise<any> => {
+  update: async (id: string, eventData: any): Promise<any> => {
     return makeAuthenticatedRequest(`/events/${id}`, {
       method: 'PUT',
       body: JSON.stringify(eventData),
     });
   },
 
-  delete: async (id: number): Promise<void> => {
+  delete: async (id: string): Promise<void> => {
     return makeAuthenticatedRequest(`/events/${id}`, {
       method: 'DELETE',
     });
@@ -176,6 +176,23 @@ export const settingsAPI = {
     return makeAuthenticatedRequest('/settings', {
       method: 'PUT',
       body: JSON.stringify(settingsData),
+    });
+  },
+};
+
+// User Profile API
+export const userAPI = {
+  updateProfile: async (profileData: { username?: string; email?: string }): Promise<any> => {
+    return makeAuthenticatedRequest('/user/profile', {
+      method: 'PUT',
+      body: JSON.stringify(profileData),
+    });
+  },
+
+  changePassword: async (passwordData: { currentPassword: string; newPassword: string }): Promise<any> => {
+    return makeAuthenticatedRequest('/user/password', {
+      method: 'PUT',
+      body: JSON.stringify(passwordData),
     });
   },
 };
