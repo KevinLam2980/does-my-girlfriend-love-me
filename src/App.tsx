@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react';
 import { Heart, AlertCircle, Coffee, Check, X } from 'lucide-react';
 import { Toaster } from 'react-hot-toast';
 import { TooltipProps } from './types';
@@ -5,17 +6,11 @@ import { showToast } from './utils/toast';
 import { useAppSelector, useAppDispatch } from './store/hooks';
 import { useAppLogic } from './hooks/useAppLogic';
 import {
-  addEvent,
-  updateEvent,
-  deleteEvent,
   setEditingEvent,
   setNewEvent,
   cancelEditEvent
 } from './store/slices/eventsSlice';
 import {
-  addCycle,
-  updateCycle,
-  deleteCycle,
   setSelectedCycle,
   setShowAddCycle,
   setEditingCycle,
@@ -23,13 +18,24 @@ import {
   cancelEditCycle
 } from './store/slices/cyclesSlice';
 import {
-  updateDefaultCycleData
-} from './store/slices/settingsSlice';
-import {
   setCurrentTab,
   setSummaryView,
   setConfirmDialog
 } from './store/slices/uiSlice';
+import {
+  fetchCycles,
+  createCycle,
+  updateCycle,
+  deleteCycle,
+  fetchEvents,
+  createEvent,
+  updateEvent,
+  deleteEvent,
+  fetchSettings,
+  updateSettings,
+  getCurrentUser,
+  logoutUser
+} from './store/thunks';
 import Header from './components/common/Header';
 import Footer from './components/common/Footer';
 import Navigation from './components/common/Navigation';
@@ -38,6 +44,7 @@ import DashboardPage from './pages/DashboardPage';
 import CyclePage from './pages/CyclePage';
 import EventsPage from './pages/EventsPage';
 import ProfilePage from './pages/ProfilePage';
+import AuthPage from './pages/AuthPage';
 
 // Main App Component
 export default function App() {
@@ -45,9 +52,10 @@ export default function App() {
   
   // Redux state
   const { currentTab, summaryView, confirmDialog } = useAppSelector((state: any) => state.ui);
-  const { cycles, selectedCycle, showAddCycle, editingCycle, newCycle } = useAppSelector((state: any) => state.cycles);
-  const { events, editingEvent, newEvent } = useAppSelector((state: any) => state.events);
-  const { defaultCycleData } = useAppSelector((state: any) => state.settings);
+  const { cycles, selectedCycle, showAddCycle, editingCycle, newCycle, loading: cyclesLoading } = useAppSelector((state: any) => state.cycles);
+  const { events, editingEvent, newEvent, loading: eventsLoading } = useAppSelector((state: any) => state.events);
+  const { defaultCycleData, loading: settingsLoading } = useAppSelector((state: any) => state.settings);
+  const { isAuthenticated, user, loading: authLoading } = useAppSelector((state: any) => state.auth);
 
   // Business logic hook
   const {
@@ -63,13 +71,38 @@ export default function App() {
     getPhaseBoundaries
   } = useAppLogic();
 
+  // Load data on mount and authentication
+  useEffect(() => {
+    if (isAuthenticated) {
+      dispatch(fetchCycles());
+      dispatch(fetchEvents());
+      dispatch(fetchSettings());
+    }
+  }, [isAuthenticated, dispatch]);
+
+  // Check authentication on mount
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    if (token && !isAuthenticated) {
+      dispatch(getCurrentUser());
+    }
+  }, [dispatch, isAuthenticated]);
+
   // Event handlers
-  const handleDefaultCycleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleDefaultCycleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    dispatch(updateDefaultCycleData({
-      [name]: parseInt(value)
-    }));
-    showToast.success('Settings updated successfully');
+    const updatedSettings = {
+      defaultCycleData: {
+        ...defaultCycleData,
+        [name]: parseInt(value)
+      }
+    };
+    
+    try {
+      await dispatch(updateSettings(updatedSettings)).unwrap();
+    } catch (error) {
+      // Error is handled by the thunk
+    }
   };
 
   const handleEventChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -86,7 +119,7 @@ export default function App() {
     }));
   };
 
-  const handleAddEvent = (e: React.FormEvent) => {
+  const handleAddEvent = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Validation
@@ -100,21 +133,19 @@ export default function App() {
       return;
     }
     
-    if (editingEvent) {
-      // Update existing event
-      dispatch(updateEvent({
-        ...newEvent,
-        id: editingEvent.id
-      }));
-      showToast.success('Event updated successfully');
-    } else {
-      // Add new event
-      const eventWithId = {
-        ...newEvent,
-        id: Date.now()
-      };
-      dispatch(addEvent(eventWithId));
-      showToast.success('Event added successfully');
+    try {
+      if (editingEvent) {
+        // Update existing event
+        await dispatch(updateEvent({
+          id: editingEvent.id,
+          eventData: newEvent
+        })).unwrap();
+      } else {
+        // Add new event
+        await dispatch(createEvent(newEvent)).unwrap();
+      }
+    } catch (error) {
+      // Error is handled by the thunk
     }
   };
 
@@ -127,7 +158,7 @@ export default function App() {
     showToast.info('Edit cancelled');
   };
 
-  const handleAddCycle = (e: React.FormEvent) => {
+  const handleAddCycle = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Validation
@@ -141,23 +172,25 @@ export default function App() {
       return;
     }
     
-    if (editingCycle) {
-      // Update existing cycle
-      dispatch(updateCycle({
-        ...newCycle,
-        id: editingCycle.id,
-        periodLength: parseInt(newCycle.periodLength.toString())
-      }));
-      showToast.success('Cycle updated successfully');
-    } else {
-      // Add new cycle
-      const cycleWithId = {
-        ...newCycle,
-        id: Date.now(),
-        periodLength: parseInt(newCycle.periodLength.toString())
-      };
-      dispatch(addCycle(cycleWithId));
-      showToast.success('Cycle added successfully');
+    try {
+      if (editingCycle) {
+        // Update existing cycle
+        await dispatch(updateCycle({
+          id: editingCycle.id,
+          cycleData: {
+            ...newCycle,
+            periodLength: parseInt(newCycle.periodLength.toString())
+          }
+        })).unwrap();
+      } else {
+        // Add new cycle
+        await dispatch(createCycle({
+          ...newCycle,
+          periodLength: parseInt(newCycle.periodLength.toString())
+        })).unwrap();
+      }
+    } catch (error) {
+      // Error is handled by the thunk
     }
   };
 
@@ -183,10 +216,13 @@ export default function App() {
     dispatch(setConfirmDialog({
       title: 'Delete Event',
       message: `Are you sure you want to delete this event?\n\n${eventLabel} on ${eventDate}${event.notes ? '\nNotes: ' + event.notes : ''}`,
-      onConfirm: () => {
-        dispatch(deleteEvent(id));
-        dispatch(setConfirmDialog(null));
-        showToast.success('Event deleted successfully');
+      onConfirm: async () => {
+        try {
+          await dispatch(deleteEvent(id)).unwrap();
+          dispatch(setConfirmDialog(null));
+        } catch (error) {
+          // Error is handled by the thunk
+        }
       },
       onCancel: () => dispatch(setConfirmDialog(null))
     }));
@@ -204,13 +240,24 @@ export default function App() {
     dispatch(setConfirmDialog({
       title: 'Delete Cycle',
       message: `Are you sure you want to delete this cycle?\n\nPeriod starting ${cycleDate} (${cycle.periodLength} days)\n\nThis will also affect any events associated with this cycle.`,
-      onConfirm: () => {
-        dispatch(deleteCycle(id));
-        dispatch(setConfirmDialog(null));
-        showToast.success('Cycle deleted successfully');
+      onConfirm: async () => {
+        try {
+          await dispatch(deleteCycle(id)).unwrap();
+          dispatch(setConfirmDialog(null));
+        } catch (error) {
+          // Error is handled by the thunk
+        }
       },
       onCancel: () => dispatch(setConfirmDialog(null))
     }));
+  };
+
+  const handleLogout = async () => {
+    try {
+      await dispatch(logoutUser()).unwrap();
+    } catch (error) {
+      // Error is handled by the thunk
+    }
   };
 
   // Calculate days until next period
@@ -280,9 +327,26 @@ export default function App() {
     return null;
   };
 
+  // Show loading state
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show authentication page if not authenticated
+  if (!isAuthenticated) {
+    return <AuthPage />;
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
+      <Header user={user} onLogout={handleLogout} />
       <Navigation tab={currentTab} setTab={(tab) => dispatch(setCurrentTab(tab))} />
       
       {/* Main Content */}
@@ -291,6 +355,16 @@ export default function App() {
         role="main"
         aria-labelledby="app-title"
       >
+        {/* Loading overlay */}
+        {(cyclesLoading || eventsLoading || settingsLoading) && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white p-6 rounded-lg shadow-lg">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-pink-600 mx-auto"></div>
+              <p className="mt-2 text-gray-600">Loading data...</p>
+            </div>
+          </div>
+        )}
+
         {currentTab === 'dashboard' && (
           <DashboardPage
             cycles={cycles}

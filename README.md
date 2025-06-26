@@ -1,261 +1,223 @@
-# Does My Girlfriend Love Me? 💕
+# Does My GF Love Me? - Full Stack Application
 
-A comprehensive relationship tracking application that helps you monitor relationship events and cycle data to understand patterns and trends in your relationship. P.S this Application is build solely for fun, to explore technologies, play with code, and make my girlfriend laugh.
+A comprehensive relationship tracking application with cycle prediction and event logging, built with React/TypeScript frontend and Node.js/Express backend with MongoDB.
 
-![React](https://img.shields.io/badge/React-18.2.0-blue)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)
-![Redux](https://img.shields.io/badge/Redux_Toolkit-1.9.5-purple)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.3.0-38B2AC)
-![Responsive](https://img.shields.io/badge/Responsive-Design-green)
-![Accessible](https://img.shields.io/badge/Accessible-WCAG_2.1-orange)
+## 🚀 Features
 
-## 🌟 Features
+### Frontend (React + TypeScript)
+- **Cycle Tracking**: Log and track menstrual cycles with ML-based predictions
+- **Event Logging**: Record relationship events (nice gestures, arguments, gifts, etc.)
+- **Dashboard**: Visual charts and statistics for cycle analysis
+- **Authentication**: Secure user registration and login
+- **Responsive Design**: Works on desktop and mobile devices
+- **Real-time Updates**: Live data synchronization with backend
 
-### 📊 **Dashboard & Analytics**
-- **Real-time Overview**: View current cycle day, phase, and days until next period
-- **Interactive Charts**: Visualize relationship events by cycle day with phase overlays
-- **Statistical Analysis**: Comprehensive event summaries by type and cycle phase
-- **ML-Powered Predictions**: Advanced regression algorithms for cycle prediction
+### Backend (Node.js + Express + MongoDB)
+- **RESTful API**: Complete CRUD operations for cycles, events, and settings
+- **User Authentication**: JWT-based authentication with bcrypt password hashing
+- **Data Persistence**: MongoDB database with Mongoose ODM
+- **Multi-user Support**: Isolated data per user with proper authorization
+- **TypeScript**: Full type safety throughout the backend
 
-### 📅 **Cycle Tracking**
-- **Period Management**: Add and track menstrual cycles with customizable lengths
-- **Phase Visualization**: Automatic phase detection (Menstruation, Follicular, Ovulation, Luteal)
-- **Prediction Engine**: Machine learning algorithms using polynomial and exponential regression
-- **Historical Data**: View and analyze past cycles with calculated lengths
+## 🛠️ Tech Stack
 
-### 📝 **Event Tracking**
-- **Relationship Events**: Track 5 types of relationship interactions:
-  - 💖 Was Nice to Me
-  - 😠 Was Mean to Me  
-  - ⚔️ Had Argument
-  - 🎁 Gave Gift
-  - 🍕 Bought Food
-- **Detailed Notes**: Add context and details to each event
-- **Cycle Integration**: Events automatically linked to cycle phases
-- **Edit & Delete**: Full CRUD operations for event management
+### Frontend
+- React 18 with TypeScript
+- Redux Toolkit for state management
+- React Router for navigation
+- Tailwind CSS for styling
+- React Hot Toast for notifications
+- Recharts for data visualization
+- Regression.js for ML predictions
 
-### 🎨 **User Experience**
-- **Responsive Design**: Works perfectly on mobile, tablet, and desktop
-- **Touch-Friendly**: Optimized for touch devices with proper sizing
-- **Accessibility**: WCAG 2.1 compliant with screen reader support
-- **Dark/Light Mode**: Automatic theme detection
-- **Toast Notifications**: Real-time feedback for all actions
+### Backend
+- Node.js with Express
+- TypeScript for type safety
+- MongoDB with Mongoose
+- JWT for authentication
+- bcryptjs for password hashing
+- CORS for cross-origin requests
+- dotenv for environment variables
 
-### 💾 **Data Management**
-- **Local Storage**: All data stored locally in your browser
-- **Redux State**: Centralized state management with persistence
-- **Data Export**: Easy backup and restore capabilities
-- **Privacy-First**: No data sent to external servers
-
-## 🛠️ Technologies Used
-
-### **Frontend Framework**
-- **React 18.2.0** - Modern React with hooks and functional components
-- **TypeScript 5.0** - Type-safe development with strict type checking
-
-### **State Management**
-- **Redux Toolkit 1.9.5** - Simplified Redux with built-in best practices
-- **React-Redux 8.1.1** - Official React bindings for Redux
-- **Redux Persist** - Automatic state persistence to localStorage
-
-### **Styling & UI**
-- **Tailwind CSS 3.3.0** - Utility-first CSS framework
-- **Lucide React** - Beautiful, customizable icons
-- **React Hot Toast** - Elegant toast notifications
-
-### **Data Visualization**
-- **Recharts** - Composable charting library for React
-- **Regression.js** - Machine learning regression algorithms
-
-### **Development Tools**
-- **Create React App** - Zero-configuration React setup
-- **ESLint** - Code linting and quality enforcement
-- **PostCSS** - CSS processing and optimization
-
-## 🚀 Installation & Setup
+## 📦 Installation
 
 ### Prerequisites
-- Node.js 16.0 or higher
-- npm or yarn package manager
+- Node.js (v16 or higher)
+- MongoDB (local or Atlas)
+- npm or yarn
 
-### Quick Start
-```bash
-# Clone the repository
-git clone https://github.com/KevinLam2980/does-my-girlfriend-love-me.git
+### Setup
 
-# Navigate to project directory
-cd does-my-girlfriend-love-me
+1. **Clone the repository**
+   ```bash
+   git clone <your-repo-url>
+   cd does-my-gf-love-me
+   ```
 
-# Install dependencies
-npm install
+2. **Install frontend dependencies**
+   ```bash
+   npm install
+   ```
 
-# Start development server
-npm start
+3. **Install backend dependencies**
+   ```bash
+   cd backend
+   npm install
+   cd ..
+   ```
+
+4. **Environment Setup**
+
+   Create a `.env` file in the backend directory:
+   ```env
+   MONGODB_URI=mongodb://localhost:27017/does-my-gf-love-me
+   JWT_SECRET=your-super-secret-jwt-key
+   PORT=5000
+   NODE_ENV=development
+   ```
+
+5. **Start MongoDB**
+   ```bash
+   # If using local MongoDB
+   mongod
+   
+   # Or use MongoDB Atlas (cloud)
+   ```
+
+## 🚀 Running the Application
+
+### Development Mode
+
+1. **Start the backend server**
+   ```bash
+   cd backend
+   npm run dev
+   ```
+   Backend will run on http://localhost:5000
+
+2. **Start the frontend development server**
+   ```bash
+   npm start
+   ```
+   Frontend will run on http://localhost:3000
+
+### Production Build
+
+1. **Build the frontend**
+   ```bash
+   npm run build
+   ```
+
+2. **Start the backend in production**
+   ```bash
+   cd backend
+   npm start
+   ```
+
+## 📁 Project Structure
+
+```
+does-my-gf-love-me/
+├── backend/                 # Backend server
+│   ├── src/
+│   │   ├── config/         # Database configuration
+│   │   ├── middleware/     # Authentication middleware
+│   │   ├── models/         # MongoDB models
+│   │   ├── routes/         # API routes
+│   │   └── types/          # TypeScript types
+│   ├── package.json
+│   └── tsconfig.json
+├── src/                    # Frontend React app
+│   ├── components/         # React components
+│   ├── pages/             # Page components
+│   ├── store/             # Redux store and slices
+│   ├── services/          # API services
+│   ├── hooks/             # Custom React hooks
+│   └── utils/             # Utility functions
+├── public/                # Static assets
+└── package.json
 ```
 
-The app will open at `http://localhost:3000`
+## 🔧 API Endpoints
 
-### Build for Production
-```bash
-# Create optimized production build
-npm run build
+### Authentication
+- `POST /api/auth/register` - User registration
+- `POST /api/auth/login` - User login
+- `GET /api/auth/me` - Get current user
 
-# Serve production build locally
-npm run serve
-```
+### Cycles
+- `GET /api/cycles` - Get user's cycles
+- `POST /api/cycles` - Create new cycle
+- `PUT /api/cycles/:id` - Update cycle
+- `DELETE /api/cycles/:id` - Delete cycle
 
-## 📱 Usage Guide
+### Events
+- `GET /api/events` - Get user's events
+- `POST /api/events` - Create new event
+- `PUT /api/events/:id` - Update event
+- `DELETE /api/events/:id` - Delete event
 
-### Getting Started
-1. **Add Your First Cycle**: Go to "Cycle Tracking" and add your first period
-2. **Configure Settings**: Set your average cycle length in "Profile"
-3. **Track Events**: Use "Add Events" to record relationship interactions
-4. **View Analytics**: Check the "Dashboard" for insights and predictions
+### Settings
+- `GET /api/settings` - Get user settings
+- `PUT /api/settings` - Update user settings
 
-### Key Features
-- **Dashboard**: Overview of current cycle status and predictions
-- **Cycle Tracking**: Manage menstrual cycles and view historical data
-- **Event Management**: Add, edit, and delete relationship events
-- **Profile Settings**: Configure default cycle parameters
+## 🔐 Authentication
 
-### Data Privacy
-- All data is stored locally in your browser
-- No data is transmitted to external servers
-- You can export/import your data for backup
+The application uses JWT (JSON Web Tokens) for authentication:
 
-## 🏗️ Project Structure
+1. Users register/login through the frontend
+2. Backend validates credentials and returns a JWT token
+3. Frontend stores the token in localStorage
+4. Token is sent with each API request in the Authorization header
+5. Backend middleware validates the token for protected routes
 
-```
-src/
-├── components/          # Reusable UI components
-│   ├── common/         # Header, Navigation, Footer, Dialogs
-│   ├── dashboard/      # Dashboard-specific components
-│   ├── events/         # Event management components
-│   ├── cycles/         # Cycle tracking components
-│   └── profile/        # Settings components
-├── pages/              # Main page components
-├── store/              # Redux store configuration
-│   ├── slices/         # Redux Toolkit slices
-│   ├── middleware/     # Custom middleware
-│   └── hooks.ts        # Redux hooks
-├── hooks/              # Custom React hooks
-├── types/              # TypeScript type definitions
-├── utils/              # Utility functions
-└── App.tsx             # Main application component
-```
+## 📊 Features in Detail
 
-## 🔧 Configuration
+### Cycle Prediction
+- Uses linear regression to predict future cycle start dates
+- Analyzes historical cycle data for patterns
+- Provides confidence intervals for predictions
 
-### Environment Variables
-Create a `.env` file in the root directory:
-```env
-REACT_APP_TITLE=Does My Girlfriend Love Me?
-REACT_APP_VERSION=1.0.0
-```
+### Event Tracking
+- Log relationship events with timestamps
+- Associate events with specific cycles
+- Visual indicators for different event types
 
-### Customization
-- **Colors**: Modify Tailwind config in `tailwind.config.js`
-- **Themes**: Update color schemes in component files
-- **Features**: Enable/disable features in Redux slices
+### Dashboard Analytics
+- Cycle length statistics
+- Event frequency analysis
+- Phase-based event distribution
+- Interactive charts and graphs
+
+## 🚀 Deployment
+
+### Frontend (Vercel/Netlify)
+1. Connect your GitHub repository
+2. Set build command: `npm run build`
+3. Set output directory: `build`
+4. Deploy
+
+### Backend (Heroku/Railway)
+1. Set environment variables
+2. Deploy from GitHub
+3. Configure MongoDB connection
 
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
 
-## 📄 License
+## 📝 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License.
 
-## 🙏 Acknowledgments
+## 🆘 Support
 
-- **React Team** for the amazing framework
-- **Redux Toolkit** for simplified state management
-- **Tailwind CSS** for the utility-first styling approach
-- **Recharts** for beautiful data visualization
-- **Lucide** for the beautiful icon set
-
-## 📞 Support
-
-If you have any questions or need help:
-- Open an issue on GitHub
-- Check the documentation in the code comments
-- Review the TypeScript types for API understanding
+If you encounter any issues or have questions, please open an issue on GitHub.
 
 ---
 
-**Note**: This app is designed for personal use and relationship tracking. All data is stored locally and remains private to you.
-
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**Note**: This application is designed for educational and personal use. Always respect privacy and consent when tracking personal data.
