@@ -3,6 +3,7 @@ services:
     name: does-my-gf-love-me-backend
     env: node
     plan: free
+    rootDir: backend
     buildCommand: npm install && npm run build
     startCommand: npm start
     envVars:
