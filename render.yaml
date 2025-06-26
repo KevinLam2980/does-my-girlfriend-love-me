@@ -3,7 +3,7 @@ services:
     name: does-my-gf-love-me-backend
     env: node
     plan: free
-    buildCommand: cd backend && npm install && npm run build
+    buildCommand: node build-backend.js
     startCommand: cd backend && npm start
     envVars:
       - key: NODE_ENV
