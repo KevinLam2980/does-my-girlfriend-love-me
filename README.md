@@ -1,3 +1,7 @@
+This is a Reactjs app created for fun to make my girlfriend laugh, it is just meant to be a joke, but includes data visualizations, ML period prediction, react forms, and data analyzations.
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
