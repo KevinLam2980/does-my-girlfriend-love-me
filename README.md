@@ -1,6 +1,193 @@
-This is a Reactjs app created for fun to make my girlfriend laugh, it is just meant to be a joke, but includes data visualizations, ML period prediction, react forms, and data analyzations.
+# Does My Girlfriend Love Me? 💕
 
+A comprehensive relationship tracking application that helps you monitor relationship events and cycle data to understand patterns and trends in your relationship.
 
+![React](https://img.shields.io/badge/React-18.2.0-blue)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)
+![Redux](https://img.shields.io/badge/Redux_Toolkit-1.9.5-purple)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.3.0-38B2AC)
+![Responsive](https://img.shields.io/badge/Responsive-Design-green)
+![Accessible](https://img.shields.io/badge/Accessible-WCAG_2.1-orange)
+
+## 🌟 Features
+
+### 📊 **Dashboard & Analytics**
+- **Real-time Overview**: View current cycle day, phase, and days until next period
+- **Interactive Charts**: Visualize relationship events by cycle day with phase overlays
+- **Statistical Analysis**: Comprehensive event summaries by type and cycle phase
+- **ML-Powered Predictions**: Advanced regression algorithms for cycle prediction
+
+### 📅 **Cycle Tracking**
+- **Period Management**: Add and track menstrual cycles with customizable lengths
+- **Phase Visualization**: Automatic phase detection (Menstruation, Follicular, Ovulation, Luteal)
+- **Prediction Engine**: Machine learning algorithms using polynomial and exponential regression
+- **Historical Data**: View and analyze past cycles with calculated lengths
+
+### 📝 **Event Tracking**
+- **Relationship Events**: Track 5 types of relationship interactions:
+  - 💖 Was Nice to Me
+  - 😠 Was Mean to Me  
+  - ⚔️ Had Argument
+  - 🎁 Gave Gift
+  - 🍕 Bought Food
+- **Detailed Notes**: Add context and details to each event
+- **Cycle Integration**: Events automatically linked to cycle phases
+- **Edit & Delete**: Full CRUD operations for event management
+
+### 🎨 **User Experience**
+- **Responsive Design**: Works perfectly on mobile, tablet, and desktop
+- **Touch-Friendly**: Optimized for touch devices with proper sizing
+- **Accessibility**: WCAG 2.1 compliant with screen reader support
+- **Dark/Light Mode**: Automatic theme detection
+- **Toast Notifications**: Real-time feedback for all actions
+
+### 💾 **Data Management**
+- **Local Storage**: All data stored locally in your browser
+- **Redux State**: Centralized state management with persistence
+- **Data Export**: Easy backup and restore capabilities
+- **Privacy-First**: No data sent to external servers
+
+## 🛠️ Technologies Used
+
+### **Frontend Framework**
+- **React 18.2.0** - Modern React with hooks and functional components
+- **TypeScript 5.0** - Type-safe development with strict type checking
+
+### **State Management**
+- **Redux Toolkit 1.9.5** - Simplified Redux with built-in best practices
+- **React-Redux 8.1.1** - Official React bindings for Redux
+- **Redux Persist** - Automatic state persistence to localStorage
+
+### **Styling & UI**
+- **Tailwind CSS 3.3.0** - Utility-first CSS framework
+- **Lucide React** - Beautiful, customizable icons
+- **React Hot Toast** - Elegant toast notifications
+
+### **Data Visualization**
+- **Recharts** - Composable charting library for React
+- **Regression.js** - Machine learning regression algorithms
+
+### **Development Tools**
+- **Create React App** - Zero-configuration React setup
+- **ESLint** - Code linting and quality enforcement
+- **PostCSS** - CSS processing and optimization
+
+## 🚀 Installation & Setup
+
+### Prerequisites
+- Node.js 16.0 or higher
+- npm or yarn package manager
+
+### Quick Start
+```bash
+# Clone the repository
+git clone https://github.com/KevinLam2980/does-my-girlfriend-love-me.git
+
+# Navigate to project directory
+cd does-my-girlfriend-love-me
+
+# Install dependencies
+npm install
+
+# Start development server
+npm start
+```
+
+The app will open at `http://localhost:3000`
+
+### Build for Production
+```bash
+# Create optimized production build
+npm run build
+
+# Serve production build locally
+npm run serve
+```
+
+## 📱 Usage Guide
+
+### Getting Started
+1. **Add Your First Cycle**: Go to "Cycle Tracking" and add your first period
+2. **Configure Settings**: Set your average cycle length in "Profile"
+3. **Track Events**: Use "Add Events" to record relationship interactions
+4. **View Analytics**: Check the "Dashboard" for insights and predictions
+
+### Key Features
+- **Dashboard**: Overview of current cycle status and predictions
+- **Cycle Tracking**: Manage menstrual cycles and view historical data
+- **Event Management**: Add, edit, and delete relationship events
+- **Profile Settings**: Configure default cycle parameters
+
+### Data Privacy
+- All data is stored locally in your browser
+- No data is transmitted to external servers
+- You can export/import your data for backup
+
+## 🏗️ Project Structure
+
+```
+src/
+├── components/          # Reusable UI components
+│   ├── common/         # Header, Navigation, Footer, Dialogs
+│   ├── dashboard/      # Dashboard-specific components
+│   ├── events/         # Event management components
+│   ├── cycles/         # Cycle tracking components
+│   └── profile/        # Settings components
+├── pages/              # Main page components
+├── store/              # Redux store configuration
+│   ├── slices/         # Redux Toolkit slices
+│   ├── middleware/     # Custom middleware
+│   └── hooks.ts        # Redux hooks
+├── hooks/              # Custom React hooks
+├── types/              # TypeScript type definitions
+├── utils/              # Utility functions
+└── App.tsx             # Main application component
+```
+
+## 🔧 Configuration
+
+### Environment Variables
+Create a `.env` file in the root directory:
+```env
+REACT_APP_TITLE=Does My Girlfriend Love Me?
+REACT_APP_VERSION=1.0.0
+```
+
+### Customization
+- **Colors**: Modify Tailwind config in `tailwind.config.js`
+- **Themes**: Update color schemes in component files
+- **Features**: Enable/disable features in Redux slices
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- **React Team** for the amazing framework
+- **Redux Toolkit** for simplified state management
+- **Tailwind CSS** for the utility-first styling approach
+- **Recharts** for beautiful data visualization
+- **Lucide** for the beautiful icon set
+
+## 📞 Support
+
+If you have any questions or need help:
+- Open an issue on GitHub
+- Check the documentation in the code comments
+- Review the TypeScript types for API understanding
+
+---
+
+**Note**: This app is designed for personal use and relationship tracking. All data is stored locally and remains private to you.
 
 # Getting Started with Create React App
 
