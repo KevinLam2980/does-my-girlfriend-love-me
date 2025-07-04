@@ -5,7 +5,7 @@ A comprehensive relationship tracking application with cycle prediction and even
 ## 🚀 Features
 
 ### Frontend (React + TypeScript)
-- **Cycle Tracking**: Log and track menstrual cycles with ML-based predictions
+- **Cycle Tracking**: Log and track menstrual cycles with statistical regression predictions
 - **Event Logging**: Record relationship events (nice gestures, arguments, gifts, etc.)
 - **Dashboard**: Visual charts and statistics for cycle analysis
 - **Authentication**: Secure user registration and login
@@ -28,7 +28,7 @@ A comprehensive relationship tracking application with cycle prediction and even
 - Tailwind CSS for styling
 - React Hot Toast for notifications
 - Recharts for data visualization
-- Regression.js for ML predictions
+- Regression.js for statistical predictions
 
 ### Backend
 - Node.js with Express
@@ -174,9 +174,9 @@ The application uses JWT (JSON Web Tokens) for authentication:
 ## 📊 Features in Detail
 
 ### Cycle Prediction
-- Uses linear regression to predict future cycle start dates
+- Uses polynomial and exponential regression to predict future cycle start dates
 - Analyzes historical cycle data for patterns
-- Provides confidence intervals for predictions
+- Combines multiple regression models for robust predictions
 
 ### Event Tracking
 - Log relationship events with timestamps
